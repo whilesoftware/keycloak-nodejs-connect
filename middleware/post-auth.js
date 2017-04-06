@@ -38,6 +38,10 @@ module.exports = function (keycloak) {
         delete urlParts.query.auth_callback;
         delete urlParts.query.state;
 
+        if (request.headers['x-forwarded-routing-prefix'] != null) {
+          urlParts.pathname = request.headers['x-forwarded-routing-prefix'] + urlParts.pathname;
+        }
+
         let cleanUrl = URL.format(urlParts);
 
         request.kauth.grant = grant;
